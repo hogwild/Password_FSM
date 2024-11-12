@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Validation - Mealy Machine</title>
+    <style>
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+
+<h2>Password Validation Form</h2>
+
+<form id="passwordForm">
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required oninput="mealyValidate()">
+    <br><br>
+    
+    <label for="confirmPassword">Confirm Password:</label>
+    <input type="password" id="confirmPassword" name="confirmPassword" required oninput="mealyValidate()">
+    <br><br>
+    
+    <div id="feedback">
+        <p id="lengthFeedback" class="error">Must be more than 8 characters</p>
+        <p id="capitalFeedback" class="error">Must contain at least one capital letter</p>
+        <p id="spaceFeedback" class="error">Must not contain spaces</p>
+        <p id="matchFeedback" class="error">Passwords must match</p>
+    </div>
+</form>
+
+<script>
+    // States of each requirement
+    let states = {
+        length: false,
+        capital: false,
+        noSpaces: false,
+        match: false
+    };
+
+    function updateFeedback() {
+        // Update feedback elements based on current state
+        document.getElementById("lengthFeedback").className = states.length ? "success" : "error";
+        document.getElementById("capitalFeedback").className = states.capital ? "success" : "error";
+        document.getElementById("spaceFeedback").className = states.noSpaces ? "success" : "error";
+        document.getElementById("matchFeedback").className = states.match ? "success" : "error";
+    }
+
+    function mealyValidate() {
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+
+        // Define validation rules
+        const minLength = 8;
+        const hasCapitalLetter = /[A-Z]/;
+        const hasNoSpaces = /^\S*$/;
+
+        // Update states based on current input and conditions
+        states.length = password.length > minLength;
+        states.capital = hasCapitalLetter.test(password);
+        states.noSpaces = hasNoSpaces.test(password);
+        states.match = password === confirmPassword && password.length > 0;
+
+        // Update feedback immediately as the state changes
+        updateFeedback();
+    }
+</script>
+
+</body>
+</html>
