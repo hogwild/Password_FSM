@@ -21,6 +21,7 @@
     <label for="confirmPassword">Confirm Password:</label>
     <input type="password" id="confirmPassword" name="confirmPassword" required oninput="mealyValidate()">
     <br><br>
+    <input type="checkbox" onclick="myFunction()">Show Password
     
     <div id="feedback">
         <p id="lengthFeedback" class="error">Must be more than 8 characters</p>
@@ -64,6 +65,21 @@
 
         // Update feedback immediately as the state changes
         updateFeedback();
+    }
+
+    function myFunction() {
+        var x = document.getElementById("password");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+        var y = document.getElementById("confirmPassword");
+        if (y.type === "password") {
+            y.type = "text";
+        } else {
+            y.type = "password";
+        }
     }
 </script>
 
